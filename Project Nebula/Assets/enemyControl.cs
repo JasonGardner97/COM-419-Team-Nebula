@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class enemyControl : MonoBehaviour
 {
+    // Game Manager
+    public GameManager gameManager;
+
     // Variables
-    public int enemyhealth;
+    public float enemyhealth;
+    public int enemyDeaths;
     int enemyLevel;
+
+    public bool enemyIsDead;
 
     // Text
     public Text displayHealth;
@@ -35,9 +42,23 @@ public class enemyControl : MonoBehaviour
             enemyhealth--;
         }
 
+        // Double Damage
+        if ((Input.GetMouseButtonDown(0)) && (gameManager.GetComponent<GameManager>().doubleDamage == true))
+        {
+            enemyhealth -= 2;
+        }
+
+        // Auto Damage
+        if (gameManager.GetComponent<GameManager>().autoDamage == true)
+        {
+            enemyhealth -= Time.deltaTime;
+        }
+
         // Kill enemy
         if (enemyhealth <= 0)
         {
+            enemyIsDead = true;
+            enemyDeaths += 1;
             gameObject.SetActive(false); // Disable enemy
             enemyhealth = 5; // Reset enemy health so next enemy works right
             spawner.GetComponent<enemySpawner>().enemyExists = false; // Mark enemy as not existing
