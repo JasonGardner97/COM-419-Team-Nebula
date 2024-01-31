@@ -8,8 +8,9 @@ public class enemySpawner : MonoBehaviour
     public bool enemyExists;
     public float timer;
 
-    // Enemy Object
+    // Enemy Object and UI
     public GameObject enemy;
+    public GameObject enemyUI;
 
     // Start is called before the first frame update
     void Start()
@@ -24,14 +25,16 @@ public class enemySpawner : MonoBehaviour
         // Set enemy spawner in motion
         if (enemyExists == false)
         {
+            enemyUI.SetActive(false); // Disable UI
             timer += Time.deltaTime; // Increment timer by 1 second
-            Debug.Log(timer.ToString()); // Print time in console
+            Debug.Log("Spawn Timer: " + timer.ToString()); // Print time in console
         }
 
         // Spawn an enemy 
         if ((timer >= 1.00) && (enemyExists == false))
         {
             enemy.SetActive(true); // Create an enemy
+            enemyUI.SetActive(true); // Activate enemy's UI
             enemyExists = true; // Mark enemy existing
         }
 
