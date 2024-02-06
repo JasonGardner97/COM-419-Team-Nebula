@@ -14,12 +14,19 @@ public class doubleDamageUpgrades : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         if ((Input.GetMouseButtonDown(0)) && (gameManager.GetComponent<GameManager>().playerGold >= 10) && (gameManager.GetComponent<GameManager>().doubleDamage == false))
         {
             gameManager.GetComponent<GameManager>().doubleDamage = true;
             gameManager.GetComponent<GameManager>().playerGold -= 10;
         }
+    }*/
+
+    // Click object
+    void OnMouseDown()
+    {
+        gameManager.GetComponent<GameManager>().doubleDamage = true;
+        gameManager.GetComponent<GameManager>().playerGold -= 10;
     }
 }

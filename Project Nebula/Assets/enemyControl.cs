@@ -14,6 +14,11 @@ public class enemyControl : MonoBehaviour
     public int enemyDeaths;
     int enemyLevel;
 
+    // Sprites
+    public SpriteRenderer enemySprite;
+    public Sprite sprite1, sprite2, sprite3;
+    public int spriteChoice;
+
     public bool enemyIsDead;
 
     // Text
@@ -30,24 +35,15 @@ public class enemyControl : MonoBehaviour
 
         // Set enemy health
         enemyhealth = 5;
+
+        // Set enemy Sprite
+        spriteChoice = Random.Range(1, 3);
+ 
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        // Click Enemy
-        if (Input.GetMouseButtonDown(0))
-        {
-            enemyhealth--;
-        }
-
-        // Double Damage
-        if ((Input.GetMouseButtonDown(0)) && (gameManager.GetComponent<GameManager>().doubleDamage == true))
-        {
-            enemyhealth -= 2;
-        }
-
         // Auto Damage
         if (gameManager.GetComponent<GameManager>().autoDamage == true)
         {
@@ -66,6 +62,20 @@ public class enemyControl : MonoBehaviour
 
         // Display Health
         displayHealth.text = enemyhealth.ToString();
+
+        // Display Sprite
+        if (spriteChoice == 1)
+            enemySprite.sprite = sprite1;
+        else if (spriteChoice == 2)
+            enemySprite.sprite = sprite2;
+        else if (spriteChoice == 3)
+            enemySprite.sprite = sprite3;
+    }
+
+    void OnMouseDown()
+    {
+        // Damage enemy
+        enemyhealth--;
     }
 
 
