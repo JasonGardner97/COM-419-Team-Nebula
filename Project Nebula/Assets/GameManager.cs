@@ -9,9 +9,11 @@ public class GameManager : MonoBehaviour
     // Objects
     public GameObject enemy;
     public GameObject spawner;
+    public GameObject levelButton;
 
     // Variables
     public int playerGold;
+    public int gameLevel;
 
     public bool doubleDamage;
     public bool autoDamage;
@@ -19,11 +21,17 @@ public class GameManager : MonoBehaviour
     // Display Gold Variable
     public Text displayGold;
 
+    // Display level info
+    public Text displayLevel;
+
     // Start is called before the first frame update
     void Start()
     {
         // Starting gold
         playerGold = 0;
+
+        // Starting level
+        gameLevel = 1;
     }
 
     // Update is called once per frame
@@ -38,5 +46,12 @@ public class GameManager : MonoBehaviour
             playerGold += 1;
             enemy.GetComponent<enemyControl>().enemyIsDead = false;
         }
+
+        // Display level
+        displayLevel.text = gameLevel.ToString();
+
+        // Activate level button
+        if ((enemy.GetComponent<enemyControl>().enemyDeaths >= 10) && (gameLevel <= 1))
+            levelButton.SetActive(true);
     }
 }
