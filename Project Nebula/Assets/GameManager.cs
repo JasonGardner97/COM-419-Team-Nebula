@@ -12,11 +12,12 @@ public class GameManager : MonoBehaviour
     public GameObject levelButton;
 
     // Variables
-    public int playerGold;
+    public double playerGold;
+    public double playerDamage;
     public int gameLevel;
 
-    public bool doubleDamage;
-    public bool autoDamage;
+    bool doubleDamage;
+    bool autoDamage;
 
     // Display Gold Variable
     public Text displayGold;
@@ -30,6 +31,9 @@ public class GameManager : MonoBehaviour
         // Starting gold
         playerGold = 0;
 
+        // Starting damage
+        playerDamage = 1;
+
         // Starting level
         gameLevel = 1;
     }
@@ -37,21 +41,22 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Access Enemy Spawner and Controller
+        var enemySpawner = spawner.GetComponent<enemySpawner>();
+        var enemyController = enemy.GetComponent<enemyControl>();
+
         // Display Gold
         displayGold.text = playerGold.ToString();
 
         // Increment Gold on Enemy Death
-        if ((spawner.GetComponent<enemySpawner>().enemyExists == false) && (enemy.GetComponent<enemyControl>().enemyDeaths >= 1) && (enemy.GetComponent<enemyControl>().enemyIsDead == true))
+        if ((enemySpawner.enemyExists == false) && (enemyController.enemyDeaths >= 1) && (enemyController.enemyIsDead == true))
         {
             playerGold += 1;
-            enemy.GetComponent<enemyControl>().enemyIsDead = false;
+            enemyController.enemyIsDead = false;
         }
 
         // Display level
         displayLevel.text = gameLevel.ToString();
-
-        // Activate level button
-        if ((enemy.GetComponent<enemyControl>().enemyDeaths >= 10) && (gameLevel <= 1))
-            levelButton.SetActive(true);
     }
+    
 }

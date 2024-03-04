@@ -22,10 +22,13 @@ public class enemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Access Enemy Controller
+        var enemyController = enemy.GetComponent<enemyControl>();
+
         // Set enemy spawner in motion
         if (enemyExists == false)
         {
-            enemy.GetComponent<enemyControl>().spriteChoice = Random.Range(1, 3); // Reset enemy sprite
+            enemyController.spriteChoice = Random.Range(0, 4); // Reset enemy sprite
             enemyUI.SetActive(false); // Disable UI
             timer += Time.deltaTime; // Increment timer by 1 second
             Debug.Log("Spawn Timer: " + timer.ToString()); // Print time in console
