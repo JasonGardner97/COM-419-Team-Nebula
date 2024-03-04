@@ -10,7 +10,7 @@ public class enemyControl : MonoBehaviour
     public GameManager gameManager;
 
     // Variables
-    public float enemyhealth;
+    public double enemyhealth;
     public int enemyDeaths;
     int enemyLevel;
 
@@ -44,41 +44,50 @@ public class enemyControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Auto Damage
-        if (gameManager.GetComponent<GameManager>().autoDamage == true)
-        {
-            enemyhealth -= Time.deltaTime;
-        }
+        // Access Enemy Spawner
+        var enemySpawner = spawner.GetComponent<enemySpawner>();
 
         // Kill enemy
         if (enemyhealth <= 0)
         {
+            // Destroy Enemy
             enemyIsDead = true;
             enemyDeaths += 1;
             gameObject.SetActive(false); // Disable enemy
             enemyhealth = 5; // Reset enemy health so next enemy works right
-            spawner.GetComponent<enemySpawner>().enemyExists = false; // Mark enemy as not existing
+            enemySpawner.enemyExists = false; // Mark enemy as not existing
         }
 
         // Display Health
-        displayHealth.text = enemyhealth.ToString();
+        displayHealth.text = enemyhealth.ToString("F2");
 
         // Display Sprite
-        if (spriteChoice == 1)
+        if (spriteChoice <= 1)
             enemySprite.sprite = sprite1;
         else if (spriteChoice == 2)
             enemySprite.sprite = sprite2;
-        else if (spriteChoice == 3)
+        else if (spriteChoice >= 3)
             enemySprite.sprite = sprite3;
     }
 
     void OnMouseDown()
     {
+        // Access Game Manager
+        var gameManagerObj = gameManager.GetComponent<GameManager>();
+
         // Damage enemy
-        enemyhealth--;
+        enemyhealth -= gameManagerObj.playerDamage;
     }
 
-
+    void OnEnable()
+    {
+        // Temporary Health Scale
+        if (gameManager.GetComponent<GameManager>().gameLevel >= 1)
+        {
+            var l = gameManager.GetComponent<GameManager>().gameLevel;
+            enemyhealth += (l * enemyhealth);
+        }
+    }
 }
 
     
