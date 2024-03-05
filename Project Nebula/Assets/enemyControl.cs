@@ -82,10 +82,10 @@ public class enemyControl : MonoBehaviour
     void OnEnable()
     {
         // Temporary Health Scale
-        if (gameManager.GetComponent<GameManager>().gameLevel >= 1)
+        if (gameManager.GetComponent<GameManager>().gameLevel > 1)
         {
             var l = gameManager.GetComponent<GameManager>().gameLevel;
-            enemyhealth += (l * enemyhealth);
+            enemyhealth += 2.5 * (l * enemyhealth);
         }
     }
 }

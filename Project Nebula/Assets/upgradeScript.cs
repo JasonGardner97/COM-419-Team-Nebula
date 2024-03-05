@@ -117,5 +117,44 @@ public class upgradeScript : MonoBehaviour
             else
                 Debug.Log("Not enough gold.");
         }
+
+        // Scale Upgrade Price
+        if ((rocketLegs == true) && (rocketLegsLevel >= 1))
+        {
+
+            // Access Game Manager
+            var gameManagerObj = gameManager.GetComponent<GameManager>();
+
+            // Calculate gold needed for next upgrade level
+            var c = rocketLegsPrice;
+            var n = rocketLegsLevel;
+            var x = 1.8;
+
+            // Final calculation
+            var newPrice = (c * x) * n;
+
+            // Apply new price
+            if (gameManagerObj.playerGold >= newPrice)
+            {
+                //var gameManagerObj = gameManager.GetComponent<GameManager>();
+
+                // Level up
+                gameManagerObj.playerGold -= newPrice;
+                rocketLegsLevel++;
+
+                // Formula Variables
+                var p = rocketLegsDamage;
+                var m = rocketLegsLevel;
+                var v = 1.8;
+
+                // Calculate damage increase
+                var damageIncrease = (p * v) * m;
+                rocketLegsDamage += damageIncrease;
+            }
+            else
+            {
+                Debug.Log("Gold needed: " + newPrice.ToString());
+            }
+        }
     }
 }

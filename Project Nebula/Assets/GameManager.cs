@@ -51,12 +51,26 @@ public class GameManager : MonoBehaviour
         // Increment Gold on Enemy Death
         if ((enemySpawner.enemyExists == false) && (enemyController.enemyDeaths >= 1) && (enemyController.enemyIsDead == true))
         {
-            playerGold += 1;
-            enemyController.enemyIsDead = false;
+            if (gameLevel == 1)
+            {
+                playerGold += gameLevel;
+                enemyController.enemyIsDead = false;
+            }
+            else
+            {
+                playerGold += (gameLevel * 2);
+                enemyController.enemyIsDead = false;
+            }
         }
 
         // Display level
         displayLevel.text = gameLevel.ToString();
+
+        // Update level
+        if (enemyController.enemyDeaths >= (10 * gameLevel))
+        {
+            levelButton.SetActive(true);
+        }
     }
     
 }

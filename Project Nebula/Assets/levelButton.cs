@@ -6,23 +6,16 @@ public class levelButton : MonoBehaviour
 {
     // Constants
     public GameManager gameManager;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject enemyController;
 
     // Click Button
     void OnMouseDown()
-    {
+    {   
+        // Update Level
         gameManager.GetComponent<GameManager>().gameLevel++;
         gameObject.SetActive(false);
+
+        // Reset enemy deaths
+        enemyController.GetComponent<enemyControl>().enemyDeaths = 0;
     }
 }
