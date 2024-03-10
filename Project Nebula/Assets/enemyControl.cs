@@ -59,7 +59,7 @@ public class enemyControl : MonoBehaviour
         }
 
         // Display Health
-        displayHealth.text = enemyhealth.ToString("F2");
+        displayHealth.text = enemyhealth.ToString("F0");
 
         // Display Sprite
         if (spriteChoice <= 1)

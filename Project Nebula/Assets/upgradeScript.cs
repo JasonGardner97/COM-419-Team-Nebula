@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class upgradeScript : MonoBehaviour
 {
@@ -10,10 +12,15 @@ public class upgradeScript : MonoBehaviour
     // Enemy
     public GameObject enemy;
 
+    // Price Display
+    public Text displayFistPrice;
+    public Text displayLegsPrice;
+
     // Variables (Oversized Fist)
     bool oversizedFist;
     int oversizedFistLevel;
-    int oversizedFistOGPrice = 10;
+    double oversizedFistOGPrice = 10;
+    double newPriceFist;
 
     // Variables (Rocket Powered Legs)
     public bool rocketLegs;
@@ -21,8 +28,18 @@ public class upgradeScript : MonoBehaviour
     public double rocketLegsDamage;
     public int rocketLegsLevel;
 
+    void OnEnable()
+    {
+        // Display Price for Fist
+        displayFistPrice.text = oversizedFistOGPrice.ToString();
+    }
+
     void Update()
     {
+        // Display Fist Price
+        if (oversizedFist == true)
+            displayFistPrice.text = newPriceFist.ToString();
+
         // Rocket Legs Effect
         if ((rocketLegs == true) && (enemy.activeSelf == true))
         {
@@ -33,6 +50,7 @@ public class upgradeScript : MonoBehaviour
 
     public void OversizedFist()
     {
+
         // Activate upgrade
         if ((oversizedFist == false) && (oversizedFistLevel == 0))
         {
@@ -45,6 +63,17 @@ public class upgradeScript : MonoBehaviour
                 gameManagerObj.playerGold -= oversizedFistOGPrice;
                 oversizedFist = true;
                 oversizedFistLevel = 1;
+
+                // Calculate gold needed for next upgrade level
+                var c = oversizedFistOGPrice;
+                var n = oversizedFistLevel;
+                var x = 1.8;
+
+                // Final calculation
+                newPriceFist = (c * x) * n;
+
+                // Update Text
+                displayFistPrice.text = newPriceFist.ToString();
             }
             else
                 Debug.Log("Not enough gold.");
@@ -53,29 +82,43 @@ public class upgradeScript : MonoBehaviour
         // Scale Upgrade
         if ((oversizedFist == false) && (oversizedFistLevel >= 1))
         {
-
             // Access Game Manager
             var gameManagerObj = gameManager.GetComponent<GameManager>();
 
-            // Calculate gold needed for next upgrade level
-            var c = oversizedFistOGPrice;
-            var n = oversizedFistLevel;
-            var x = 1.8;
-
-            // Final calculation
-            var newPrice = (c * x) * n;
-
             // Apply new price
-            if (gameManagerObj.playerGold >= newPrice)
+            if (gameManagerObj.playerGold >= newPriceFist)
             {
-                gameManagerObj.playerGold -= newPrice;
+                gameManagerObj.playerGold -= newPriceFist;
                 oversizedFist = true;
                 oversizedFistLevel++;
+
+                // Calculate gold needed for next upgrade level
+                var c = oversizedFistOGPrice;
+                var n = oversizedFistLevel;
+                var x = 1.8;
+
+                // Final calculation
+                newPriceFist = (c * x) * n;
+
+                // Display
+                displayFistPrice.text = newPriceFist.ToString();
             }
             else
             {
-                Debug.Log("Gold needed: " + newPrice.ToString());
+                // Calculate gold needed for next upgrade level
+                var c = oversizedFistOGPrice;
+                var n = oversizedFistLevel;
+                var x = 1.8;
+
+                // Final calculation
+                newPriceFist = (c * x) * n;
+
+                // Display
+                displayFistPrice.text = newPriceFist.ToString();
             }
+
+            // Update Text
+            displayFistPrice.text = newPriceFist.ToString();
         }
 
         // Upgrade effect
@@ -91,7 +134,7 @@ public class upgradeScript : MonoBehaviour
 
             // Calculate damage increase
             var damageIncrease = (p * x) * n;
-            gameManagerObj.playerDamage += damageIncrease;
+            gameManagerObj.playerDamage += (damageIncrease / 2);
 
             // Turn off upgrade
             oversizedFist = false;
@@ -121,7 +164,6 @@ public class upgradeScript : MonoBehaviour
         // Scale Upgrade Price
         if ((rocketLegs == true) && (rocketLegsLevel >= 1))
         {
-
             // Access Game Manager
             var gameManagerObj = gameManager.GetComponent<GameManager>();
 
