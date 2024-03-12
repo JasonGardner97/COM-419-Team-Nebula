@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     // Objects
     public GameObject enemy;
+    public GameObject miniBoss;
     public GameObject spawner;
     public GameObject levelButton;
 
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
         // Access Enemy Spawner and Controller
         var enemySpawner = spawner.GetComponent<enemySpawner>();
         var enemyController = enemy.GetComponent<enemyControl>();
+        var miniBossController = miniBoss.GetComponent<miniBoss>();
 
         // Display Gold
         displayGold.text = playerGold.ToString();
@@ -67,7 +69,7 @@ public class GameManager : MonoBehaviour
         displayLevel.text = gameLevel.ToString();
 
         // Update level
-        if (enemyController.enemyDeaths >= (10 * gameLevel))
+        if (enemyController.enemyDeaths >= (10 * gameLevel) || miniBossController.miniBossDeaths >= 1)
         {
             levelButton.SetActive(true);
         }

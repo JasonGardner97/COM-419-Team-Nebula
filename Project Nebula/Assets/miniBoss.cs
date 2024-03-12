@@ -50,7 +50,9 @@ public class miniBoss : MonoBehaviour
             gameObject.SetActive(false);
             miniBossHealth = 500;
             enemySpawner.enemyExists = false;
+            miniBossTimer = 30;
             timer.gameObject.SetActive(false);
+            displayHealth.gameObject.SetActive(false);
         }
 
         // Decrease timer
