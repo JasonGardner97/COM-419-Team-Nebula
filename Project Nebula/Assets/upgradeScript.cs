@@ -11,6 +11,7 @@ public class upgradeScript : MonoBehaviour
 
     // Enemy
     public GameObject enemy;
+    public GameObject miniBoss;
 
     // Price Display
     public Text displayFistPrice;
@@ -41,10 +42,12 @@ public class upgradeScript : MonoBehaviour
             displayFistPrice.text = newPriceFist.ToString();
 
         // Rocket Legs Effect
-        if ((rocketLegs == true) && (enemy.activeSelf == true))
+        if ((rocketLegs == true) && (enemy.activeSelf == true) || (rocketLegs == true) && (miniBoss.activeSelf == true))
         {
             var enemyObj = enemy.GetComponent<enemyControl>();
+            var miniBossObj = miniBoss.GetComponent<miniBoss>();
             enemyObj.enemyhealth -= rocketLegsDamage;
+            miniBossObj.miniBossHealth -= rocketLegsDamage;
         }
     }
 

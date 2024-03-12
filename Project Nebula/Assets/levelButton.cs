@@ -7,6 +7,7 @@ public class levelButton : MonoBehaviour
     // Constants
     public GameManager gameManager;
     public GameObject enemyController;
+    public GameObject miniBossController;
 
     // Click Button
     void OnMouseDown()
